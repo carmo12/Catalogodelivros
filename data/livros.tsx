@@ -4,7 +4,7 @@ const livros = [
     id: '1',
     titulo: 'Dom Casmurro',
     autor: 'Machado de Assis',
-    capa: 'https://covers.openlibrary.org/b/id/8231856-L.jpg',
+    capa: 'https://th.bing.com/th/id/OIP.i6Mq7jO7nBRBfiACBaXXOgHaLS?w=184&h=281&c=7&r=0&o=7&pid=1.7&rm=3',
   },
   {
     id: '2',
@@ -16,7 +16,7 @@ const livros = [
     id: '3',
     titulo: 'O Pequeno Príncipe',
     autor: 'Antoine de Saint-Exupéry',
-    capa: 'https://covers.openlibrary.org/b/id/8231990-L.jpg',
+    capa: 'https://m.media-amazon.com/images/I/41+Qj-qZPOL._SY445_SX342_ML2_.jpgg',
   },
   {
     id: '4',
@@ -28,7 +28,7 @@ const livros = [
     id: '5',
     titulo: 'A Revolução dos Bichos',
     autor: 'George Orwell',
-    capa: 'https://covers.openlibrary.org/b/id/8235116-L.jpg',
+    capa: 'https://m.media-amazon.com/images/I/81FmMwW0p9L._SY385_.jpg',
   },
 ];
 
