@@ -1,98 +1,54 @@
-import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+// src/app/index.tsx
+// -----------------------------------------------------------------------
+// Tela inicial do app (Expo Router). Monta o catálogo de livros
+// usando FlatList para renderizar a lista de forma performática.
+// -----------------------------------------------------------------------
 
-import { AnimatedIcon } from '@/components/animated-icon';
-import { HintRow } from '@/components/hint-row';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
+import { FlatList, SafeAreaView, StyleSheet, Text } from 'react-native';
 
-function getDevMenuHint() {
-  if (Platform.OS === 'web') {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
-  }
-  if (Device.isDevice) {
-    return (
-      <ThemedText type="small">
-        shake device or press <ThemedText type="code">m</ThemedText> in terminal
-      </ThemedText>
-    );
-  }
-  const shortcut = Platform.OS === 'android' ? 'cmd+m (or ctrl+m)' : 'cmd+d';
+// Caminhos relativos: como este arquivo está em src/app/,
+// subimos duas pastas (../../) para chegar em components/ e data/
+import LivroCard from '../../components/LivroCard';
+import livros from '../../data/livros';
+
+export default function Index() {
   return (
-    <ThemedText type="small">
-      press <ThemedText type="code">{shortcut}</ThemedText>
-    </ThemedText>
+    <SafeAreaView style={estilos.container}>
+      {/* Título fixo no topo da tela */}
+      <Text style={estilos.tituloApp}>📚 Catálogo de Livros</Text>
+
+      {/* FlatList renderiza a lista de livros de forma otimizada,
+          criando apenas os itens visíveis na tela */}
+      <FlatList
+        data={livros}                                    // Array com os dados dos livros
+        keyExtractor={(item) => item.id}                 // Chave única de cada item
+        renderItem={({ item }) => <LivroCard livro={item} />} // Componente usado para cada livro
+        contentContainerStyle={estilos.lista}             // Estilo do espaço interno da lista
+        showsVerticalScrollIndicator={false}              // Esconde a barrinha de rolagem
+      />
+    </SafeAreaView>
   );
 }
 
-export default function HomeScreen() {
-  return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
-          </ThemedText>
-        </ThemedView>
-
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
-
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
-          />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
-          />
-        </ThemedView>
-
-        {Platform.OS === 'web' && <WebBadge />}
-      </SafeAreaView>
-    </ThemedView>
-  );
-}
-
-const styles = StyleSheet.create({
+// Estilos da tela
+const estilos = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    flexDirection: 'row',
+    flex: 1,                    // Ocupa toda a tela disponível
+    backgroundColor: '#f7f7f8', // Fundo cinza bem claro
   },
-  safeArea: {
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    alignItems: 'center',
-    gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
+  tituloApp: {
+    fontSize: 24,
+    fontWeight: '800',          // Bem destacado
+    textAlign: 'center',        // Centralizado horizontalmente
+    marginTop: 12,
+    marginBottom: 20,           // Espaço entre o título e a lista
+    color: '#222',
   },
-  heroSection: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
-  },
-  title: {
-    textAlign: 'center',
-  },
-  code: {
-    textTransform: 'uppercase',
-  },
-  stepContainer: {
-    gap: Spacing.three,
-    alignSelf: 'stretch',
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
+  lista: {
+    paddingHorizontal: 20,      // Respiro nas laterais dos cards
+    paddingBottom: 24,          // Espaço no final da lista
+    maxWidth: 600,              // Evita que a lista fique "esticada" em telas largas (web)
+    width: '100%',
+    alignSelf: 'center',        // Centraliza a lista horizontalmente na tela
   },
 });
